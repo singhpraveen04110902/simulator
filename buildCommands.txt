@@ -1,0 +1,2 @@
+  cmake -DCMAKE_CXX_STANDARD=17 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo -DHAVE_SSL=ON -DCMAKE_INSTALL_PREFIX:PATH="./install" -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl ..
+  make -j 4 install
