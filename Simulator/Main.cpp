@@ -15,6 +15,8 @@
 #include "FlowProcessingTypes.h"
 #include "Logger.h"
 #include "KAIXJPConfig.h"
+#include "FileWatcher.h"
+#include <thread>
 
 int main(int argc, char **argv)
 {
@@ -43,6 +45,8 @@ int main(int argc, char **argv)
         KAIXJPExchangeInterface application(&config);
         FIX::FileStoreFactory storeFactory(settings);
         FIX::ScreenLogFactory logFactory(settings);
+        std::thread t {FileWatcher(&config)};
+        t.detach();
 
         acceptor = new FIX::SocketAcceptor(application, storeFactory, settings, logFactory);
         acceptor->start();
