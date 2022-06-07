@@ -21,9 +21,14 @@
         double delay;
         std::unordered_map<FlowProcessingTypes::ReceivedTypesEnum, std::forward_list<FlowProcessingTypes::SentTypesEnum> *> messageOrder;
 
-    private:
-        void loadConfig(std::fstream &input)
+    public:
+        void loadConfig()
         {
+            std::fstream input(configFileName, std::fstream::in);
+            if (!input.is_open())
+            {
+                throw "Invalid config File " + configFileName;
+            }
             std::string line;
             while (std::getline(input, line))
             {
@@ -66,14 +71,9 @@
         }
 
     public:
-        KAIXJPConfig(const std::string &fileName)
-        {
-            std::fstream input(fileName, std::fstream::in);
-            if (!input.is_open())
-            {
-                throw "Invalid config File " + fileName;
-            }
-            loadConfig(input);
+        KAIXJPConfig(const std::string &fileName) : configFileName(fileName)
+        { 
+            loadConfig(); 
         }
 
     public:
@@ -92,5 +92,9 @@
             }
             return *(messageOrder[received_type]);
         }
+    
+     public :
+        std::string configFileName ;
+
     };
 
